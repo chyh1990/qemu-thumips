@@ -1,1 +1,1 @@
-/home/nuk/qemu/qemu-1.0.1/Makefile.target
+/home/guest/cpu/zxu/qemu-thumips/Makefile.target

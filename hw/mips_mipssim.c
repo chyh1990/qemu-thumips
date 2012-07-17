@@ -37,6 +37,7 @@
 #include "elf.h"
 #include "sysbus.h"
 #include "exec-memory.h"
+#include "thumips_hw.h"
 
 static struct _loaderparams {
     int ram_size;
@@ -217,6 +218,9 @@ mips_mipssim_init (ram_addr_t ram_size,
     if (nd_table[0].vlan)
         /* MIPSnet uses the MIPS CPU INT0, which is interrupt 2. */
         mipsnet_init(0x4200, env->irq[2], &nd_table[0]);
+
+    /* thumips_hw */
+    thumips_flash_init(0x1E000000, 0x01000000, "flash.img");
 }
 
 static QEMUMachine mips_mipssim_machine = {

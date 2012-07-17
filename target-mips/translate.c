@@ -11705,6 +11705,9 @@ static int decode_micromips_opc (CPUState *env, DisasContext *ctx, int *is_branc
 #endif
 
 
+#define PRINT_ERR_INSTR(info)            fprintf(stderr, "[THUCPU-ERR] " info ", pc=0x%08x, opcode: 0x%08x, op=0x%02x, rs=0x%02x, rd=0x%02x,"  \
+               " rt=0x%02x, imm=0x%04x\n", ctx->pc, ctx->opcode, op >> 26, rs, rd, rt, imm);
+extern int check_thumips(uint32_t opcode);
 
 /*By Nuk*/
 /*This function is important*/
@@ -11756,6 +11759,7 @@ static void decode_opc (CPUState *env, DisasContext *ctx, int *is_branch)
 	#ifdef TSINGCPU
     int i = check_thumips(ctx->opcode);
     if(i != 1){
+      PRINT_ERR_INSTR("unknown");
     	MIPS_INVAL("major opcode");
     	generate_exception(ctx, EXCP_RI);
     	return;

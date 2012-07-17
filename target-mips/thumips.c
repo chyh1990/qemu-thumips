@@ -10,10 +10,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-unsigned int inst_arr[500];
-unsigned int inst_num;
+static unsigned int inst_arr[500];
+static unsigned int inst_num;
 
-int stripe_binary(char* binary){
+static int stripe_binary(char* binary)
+{
 	int i = 0;
 	int len = strlen(binary);
 	for(i = 0;i < len; i ++){
@@ -23,9 +24,16 @@ int stripe_binary(char* binary){
 	return 0;
 }
 
-int load_thumips(){
+int load_thumips()
+{
 	FILE *fp;
-	fp = fopen("/home/nuk/thumips.txt", "r");
+  const char* filename = "thumips_insn.txt";
+	fp = fopen(filename, "r");
+
+  if(!fp){
+    fprintf(stderr, "qemu-thumips: ERROR failed to open instruction file: %s\n", filename);
+    exit(-1);
+  }
 
 	inst_num = 0;
 	while(!feof(fp)){

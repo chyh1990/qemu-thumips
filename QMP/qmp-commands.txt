@@ -593,8 +593,7 @@ Arguments:
 Example:
 
 -> { "execute": "human-monitor-command", "arguments": { "command-line": "info kvm" } }
-<- { "return": "kvm support: enabled
-" }
+<- { "return": "kvm support: enabled\r\n" }
 
 Notes:
 
