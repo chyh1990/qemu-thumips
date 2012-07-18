@@ -1,1 +1,1 @@
-/home/guest/cpu/zxu/qemu-thumips/Makefile.hw
+/home/nuk/qemu/qemu-thumips/Makefile.hw

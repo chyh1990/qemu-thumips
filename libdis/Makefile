@@ -1,1 +1,1 @@
-/home/guest/cpu/zxu/qemu-thumips/Makefile.dis
+/home/nuk/qemu/qemu-thumips/Makefile.dis
