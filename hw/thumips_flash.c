@@ -57,9 +57,10 @@ void thumips_flash_init(uint32_t base, uint32_t size, const char *filename)
 {
   FILE *f;
   uint8_t *data = NULL;
+  uint32_t memsize = size / 2;
   fprintf(stderr, "qemu-thumips: load ROM %s, base: 0x%08x, size: 0x%08x\n", filename, base, size);
-  data = (uint8_t*)g_malloc(size / 2);
-  memset(data, 0, size);
+  data = (uint8_t*)g_malloc(memsize);
+  memset(data, 0, memsize);
   flash_state.base = base;
   flash_state.size = size;
   flash_state.data = data;
@@ -76,8 +77,8 @@ void thumips_flash_init(uint32_t base, uint32_t size, const char *filename)
   fseek(f, 0L, SEEK_END);
   long sz = ftell(f);
   fseek(f, 0L, SEEK_SET);
-  if(sz > size / 2){
-    sz = size / 2;
+  if(sz > memsize){
+    sz = memsize;
     fprintf(stderr, "qemu-thumips: Warning: %s is larger than %ldKB\n",
       filename, sz>>10);
   }
