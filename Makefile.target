@@ -156,7 +156,7 @@ LDFLAGS+=-Wl,-segaddr,__STD_PROG_ZONE,0x1000 -image_base 0x0e000000
 LIBS+=-lmx
 
 obj-y = main.o commpage.o machload.o mmap.o signal.o syscall.o thunk.o \
-        gdbstub.o user-exec.o
+	gdbstub.o user-exec.o
 
 obj-i386-y += ioport-user.o
 
@@ -178,7 +178,7 @@ $(call set-vpath, $(SRC_PATH)/bsd-user)
 QEMU_CFLAGS+=-I$(SRC_PATH)/bsd-user -I$(SRC_PATH)/bsd-user/$(TARGET_ARCH)
 
 obj-y = main.o bsdload.o elfload.o mmap.o signal.o strace.o syscall.o \
-        gdbstub.o uaccess.o user-exec.o
+	gdbstub.o uaccess.o user-exec.o
 
 obj-i386-y += ioport-user.o
 
@@ -299,6 +299,8 @@ obj-mips-y += vga.o
 obj-mips-y += jazz_led.o
 obj-mips-y += gt64xxx.o mc146818rtc.o
 obj-mips-y += cirrus_vga.o
+# Added by nuk
+obj-mips-y += thumips.o
 obj-mips-$(CONFIG_FULONG) += bonito.o vt82c686.o mips_fulong2e.o
 
 obj-microblaze-y = petalogix_s3adsp1800_mmu.o

@@ -35,13 +35,13 @@
 #define GEN_HELPER 1
 #include "helper.h"
 
-
 //#define MIPS_DEBUG_DISAS
 //#define MIPS_DEBUG_SIGN_EXTENSIONS
 
 /* MIPS major opcodes */
 #define MASK_OP_MAJOR(op)  (op & (0x3F << 26))
-#define TSINGCPU 1
+
+#define THUMIPS 1
 
 /* specific special instruction type
  * */
@@ -11707,7 +11707,6 @@ static int decode_micromips_opc (CPUState *env, DisasContext *ctx, int *is_branc
 
 #define PRINT_ERR_INSTR(info)            fprintf(stderr, "[THUCPU-ERR] " info ", pc=0x%08x, opcode: 0x%08x, op=0x%02x, rs=0x%02x, rd=0x%02x,"  \
                " rt=0x%02x, imm=0x%04x\n", ctx->pc, ctx->opcode, op >> 26, rs, rd, rt, imm);
-extern int check_thumips(uint32_t opcode);
 
 /*By Nuk*/
 /*This function is important*/
@@ -11721,7 +11720,7 @@ static void decode_opc (CPUState *env, DisasContext *ctx, int *is_branch)
 
     /* make sure instructions are on a word boundary */
     if (ctx->pc & 0x3) {
-    	/*Bad Virtual Address*/
+        /*Bad Virtual Address*/
         env->CP0_BadVAddr = ctx->pc;
         generate_exception(ctx, EXCP_AdEL);
         return;
@@ -11756,15 +11755,16 @@ static void decode_opc (CPUState *env, DisasContext *ctx, int *is_branch)
         generate_exception(ctx, EXCP_RI);
         break;
     */
-	#ifdef TSINGCPU
+#ifdef THUMIPS
     int i = check_thumips(ctx->opcode);
-    if(i != 1){
+    /* printf("i=%d\n", i); */
+    if(i < 0){
       PRINT_ERR_INSTR("unknown");
-    	MIPS_INVAL("major opcode");
-    	generate_exception(ctx, EXCP_RI);
-    	return;
+      MIPS_INVAL("major opcode");
+      generate_exception(ctx, EXCP_RI);
+      return;
     }
-	#endif
+#endif
 
     switch (op) {
     case OPC_SPECIAL:
@@ -12739,9 +12739,9 @@ static void mips_tcg_init(void)
 
 #include "translate_init.c"
 
-//
-#ifdef TSINGCPU
-#include "thumips.c"
+
+#ifdef THUMIPS
+#include "thumips.h"
 #endif
 
 CPUMIPSState *cpu_mips_init (const char *cpu_model)
@@ -12765,7 +12765,7 @@ CPUMIPSState *cpu_mips_init (const char *cpu_model)
     mips_tcg_init();
     cpu_reset(env);
     qemu_init_vcpu(env);
-#ifdef TSINGCPU
+#ifdef THUMIPS
     load_thumips();
 #endif
     return env;
