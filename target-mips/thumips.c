@@ -31,6 +31,7 @@ void print_opcode(uint32_t opcode){
     opcode = opcode >> 1;
   }
   printf("\n");
+  /* printf("%08x\n", opcode); */
 }
 
 int load_thumips()
